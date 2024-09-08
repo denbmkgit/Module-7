@@ -1,0 +1,62 @@
+class WorldFinder:
+    file_names = []
+
+
+    def __init__(self, *names_files):
+        for name_file in names_files:
+            self.file_names.append(name_file)
+
+    all_words = {}
+
+    def get_all_worlds(self,):
+        all_words = {}
+        for name in self.file_names:
+
+            with open(name) as file:
+                list_ = []
+                for line in file:
+
+                    line = line.lower().replace(',', '')
+                    line = line.replace(' ', '')
+                    line = line.replace('=', '')
+                    line = line.replace('!', '')
+                    line = line.replace(';', '')
+                    line = line.replace(':', '')
+                    line = line.replace('?', '')
+                    line = line.replace(',', '')
+                    line = line.replace('.', '')
+                    line = line.replace(' - ', '')
+                    line = line.split()
+                    for word in line:
+                        list_.append(word)
+
+                    all_words[name] = list_
+
+        return all_words
+        # print(list_)
+
+
+    def count(self, word):
+        for key, value in self.get_all_worlds().items():
+            # print(key)
+            # print(value)
+            counting_words = {}
+            col_words = 0
+            print(word)
+            print(value)
+            if word in value:
+                print(value)
+                print(key)
+                col_words += 1
+                counting_words[key] = col_words
+        print(counting_words)
+
+wf = WorldFinder('file1.txt', 'file2.txt', 'file3.txt')
+# print(wf.file_names)
+
+# for i in wf.file_names:
+#     print(i)
+
+#print(wf.get_all_worlds())
+wf.count("'word11'")
+
