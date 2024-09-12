@@ -1,4 +1,4 @@
-class WorldFinder:
+class WordsFinder:
     file_names = []
 
 
@@ -8,25 +8,32 @@ class WorldFinder:
 
     all_words = {}
 
-    def get_all_worlds(self,):
+    def get_all_words(self,):
         all_words = {}
         for name in self.file_names:
 
-            with open(name) as file:
+            with open(name, encoding='utf-8') as file:
                 list_ = []
                 for line in file:
-
-                    line = line.lower().replace(',', '')
-                    line = line.replace(' ', '')
-                    line = line.replace('=', '')
-                    line = line.replace('!', '')
-                    line = line.replace(';', '')
-                    line = line.replace(':', '')
-                    line = line.replace('?', '')
-                    line = line.replace(',', '')
-                    line = line.replace('.', '')
-                    line = line.replace(' - ', '')
-                    line = line.split()
+                    sumbal = ['=','!','.',',',';',':',' - ']
+                    for sum in sumbal:
+                        line = line.replace(sum, '')
+                    # for punct in punctuation:
+                    #
+                    #     if punct in line:
+                    #         print(punct)
+                    #         line = line.replace(punct, '')
+                    #line = line.lower().replace(',', '')
+                    # line = line.replace(' ', '')
+                    # line = line.replace('=', '')
+                    # line = line.replace('!', '')
+                    # line = line.replace(';', '')
+                    # line = line.replace(':', '')
+                    # line = line.replace('?', '')
+                    # line = line.replace(',', '')
+                    # line = line.replace('.', '')
+                    # line = line.replace(' - ', '')
+                    line = line.lower().split()
                     for word in line:
                         list_.append(word)
 
@@ -37,26 +44,64 @@ class WorldFinder:
 
 
     def count(self, word):
-        for key, value in self.get_all_worlds().items():
+        for key, value in self.get_all_words().items():
             # print(key)
             # print(value)
             counting_words = {}
-            col_words = 0
-            print(word)
-            print(value)
-            if word in value:
-                print(value)
-                print(key)
-                col_words += 1
-                counting_words[key] = col_words
-        print(counting_words)
+            col_need_words = 0
+            # print(word, "it's word 1")
+            # print(value, "it's value 1")
+            # for w in value:
+            #     # print(w)
+            #     # print(w ==  word)
+            #     if word.lower() == w.lower():
+            #         # print(w, "it's W 1")
+            #         # print(key, "it's key")
+            #         col_need_words += 1
+            #         counting_words [key] = col_need_words
+            col_need_words = value.count(word.lower())
+            counting_words[key] = col_need_words
+            return counting_words
 
-wf = WorldFinder('file1.txt', 'file2.txt', 'file3.txt')
+    def find(self, word):
+        number_words = {}
+        for key, value in self.get_all_words().items():
+
+            # print(value[2])
+            # print(type(value))
+
+
+            # print(key, "it's key 1")
+            # number_words = {}
+            # col_words = 0
+            # for w in value:
+            #     col_words += 1
+                #print(w, " - it's W,   ", word, " - it's word,   ",  w == word, col_words,   " - it's count_words")
+                # if w.lower() == word.lower():
+                    # print(w, " - it's W,   ", word.lower(), " - it's word,   ", w == word.lower(), col_words, " - it's count_words")
+            #         # print(key, "it's key 2")
+            col_words = value.index(word.lower())
+            number_words[key] = col_words + 1
+                    # break
+            return number_words
+
+
+
+
+
+# wf = WordsFinder('file1.txt', 'file2.txt', 'file3.txt')
 # print(wf.file_names)
 
 # for i in wf.file_names:
 #     print(i)
 
-#print(wf.get_all_worlds())
-wf.count("'word11'")
+# print(wf.get_all_words())
+# wf.count("word11")
+
+finder2 = WordsFinder('test_file.txt')
+print(finder2.get_all_words()) # Все слова
+print(finder2.find('TEXT')) # 3 слово по счёту
+print(finder2.count('teXT')) # 4 слова teXT в тексте всего
+
+
 
